@@ -51,7 +51,13 @@ jobs:
 
     # Perform CodeQL analysis
     - name: Perform CodeQL Analysis
+      id: analyze 
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{ matrix.language }}"
         upload: true
+    - name: Upload SARIF file as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: CodeQLSARIF
+        path: ${{ steps.analyze.outputs.sarif-output }}
